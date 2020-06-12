@@ -23,20 +23,23 @@ switch (lang) {
 }
 
 let answers = [{
-    arrLang: 'ru', days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    arrLang: 'ru',
+    days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
   },
   {
-    arrLang: 'en', days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    arrLang: 'en',
+    days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
   }
 ];
 
 let answersResArr = answers.filter(item => item.arrLang === lang);
-let resTotal  = answersResArr[0].days;
+let resTotal = answersResArr[0].days;
 
 console.log(resTotal.join('\n'));
 
 
 // part 2
 let namePerson = prompt('Введите имя');
-namePerson === 'Артем' ? console.log('директор') : 
-namePerson === 'Максим' ? console.log('преподаватель') : console.log('студент');
+namePerson === 'Артем' ? console.log('директор') :
+  namePerson === 'Максим' ? console.log('преподаватель') :
+  console.log('студент');

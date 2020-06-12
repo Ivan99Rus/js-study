@@ -16,7 +16,7 @@ console.log(addExpenses.toLowerCase().split(', '));
 
 money = prompt('Ваш месячный доход?');
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-deposit = Boolean(prompt('Есть ли у вас депозит в банке?'));
+deposit = confirm('Есть ли у вас депозит в банке?');
 
 let expenses1 = prompt('Введите обязательную статью расходов?'),
   amount1 = +prompt('Во сколько это обойдется?'),
