@@ -34,3 +34,9 @@ let answersResArr = answers.filter(item => item.arrLang === lang);
 let resTotal  = answersResArr[0].days;
 
 console.log(resTotal.join('\n'));
+
+
+// part 2
+let namePerson = prompt('Введите имя');
+namePerson === 'Артем' ? console.log('директор') : 
+namePerson === 'Максим' ? console.log('преподаватель') : console.log('студент');
