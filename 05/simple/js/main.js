@@ -34,16 +34,18 @@ console.log(addExpenses.toLowerCase().split(', '));
 let expenses = [];
 
 let getExpensesMonth = function () {
-  let sum = 0;
+  let sum = 0,
+    price;
 
   for (let i = 0; i < 2; i++) {
 
     expenses[i] = prompt('Введите обязательную статью расходов?');
 
-    while (!isNumber(+prompt('Во сколько это обойдется?'))) {
-      sum += +prompt('Во сколько это обойдется?');
-    }
+    do {
+      price = +prompt('Во сколько это обойдется?');
+    } while (!isNumber(price));
 
+    sum += price;
   }
 
   console.log('expenses: ', expenses);
