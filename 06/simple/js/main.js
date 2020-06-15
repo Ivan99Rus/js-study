@@ -16,7 +16,7 @@ let startGame = () => {
 
 
   let game = (bot) => {
-    let user = prompt('Угадай число от 1 до 100');
+    let user = +prompt('Угадай число от 1 до 100');
 
     if (user === null) {
       alert('Возвращайтесь скорее!');
