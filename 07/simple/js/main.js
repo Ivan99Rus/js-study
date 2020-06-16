@@ -3,6 +3,12 @@
 let isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
+let money,
+ start = function () {
+  do {
+    money = +prompt('Ваш месячный доход?', 50000);
+  } while (!isNumber(money));
+};
 
 const appData = {
   income: {},
@@ -64,12 +70,7 @@ const appData = {
   },
 };
 
-let money,
- start = function () {
-  do {
-    money = +prompt('Ваш месячный доход?', 50000);
-  } while (!isNumber(money));
-};
+
 
 start();
 appData.asking();
