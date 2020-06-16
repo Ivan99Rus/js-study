@@ -8,6 +8,7 @@ let money,
   do {
     money = +prompt('Ваш месячный доход?', 50000);
   } while (!isNumber(money));
+  appData.budget = money;
 };
 
 const appData = {
@@ -18,7 +19,7 @@ const appData = {
   deposit: false,
   mission: 50000,
   period: 3,
-  budget: money,
+  budget: 0,
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
@@ -47,6 +48,7 @@ const appData = {
   },
 
   getBudget: function () {
+    appData.budgetMonth = appData.budget - appData.expensesMonth;
     appData.budgetDay = appData.budgetMonth / 30;
   },
 
@@ -57,14 +59,11 @@ const appData = {
   getStatusIncome: function () {
     if (appData.budgetDay >= 1200) {
       appData.addIncome.push('У вас высокий уровень дохода');
-    }
-    if (appData.budgetDay >= 600 && appData.budgetDay < 1200) {
+    } else if (appData.budgetDay >= 600 && appData.budgetDay < 1200) {
       appData.addIncome.push('У вас средний уровень дохода');
-    }
-    if (appData.budgetDay < 600) {
+    } else if (appData.budgetDay < 600) {
       appData.addIncome.push('К сожалению, у вас уровень дохода ниже среднего');
-    }
-    if (appData.budgetDay <= 0) {
+    } else if (appData.budgetDay <= 0) {
       appData.addIncome.push('Что-то пошло не так');
     }
   },
