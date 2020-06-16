@@ -12,7 +12,7 @@ const appData = {
   deposit: false,
   mission: 50000,
   period: 3,
-  budget: 0,
+  budget: money,
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
@@ -64,10 +64,11 @@ const appData = {
   },
 };
 
-let start = function () {
+let money,
+ start = function () {
   do {
-    appData.budgetMonth = +prompt('Ваш месячный доход?', 50000);
-  } while (!isNumber(appData.budgetMonth));
+    money = +prompt('Ваш месячный доход?', 50000);
+  } while (!isNumber(money));
 };
 
 start();
