@@ -122,6 +122,20 @@ appData.period > 0 ? console.log('Цель будет достигнута за 
   console.log('Цель не будет достигнута');
 
 console.log(appData.getStatusIncome());
+appData.getInfoDeposit();
+
+let addExpensesLog = function () {
+  let newArr = [];
+
+  appData.addExpenses.forEach((item) => {
+    newArr.push(item.replace(item[0], item[0].toUpperCase()));
+});
+  console.log(newArr.join(', '));
+};
+addExpensesLog();
+
+
+
 
 console.warn('Наша программа включает в себя данные:');
 for (let key in appData) {
