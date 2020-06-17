@@ -4,9 +4,9 @@ let isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
-// rexExp
-let regStringСomma = /^[a-zA-ZА-Яа-я,\s]+$/,
-  regString = /^[a-zA-ZА-Яа-я]+$/;
+let isText = function (n) {
+  return (0 !== n.length) && n !== null && !isNumber(n);
+};
 
 let money,
   start = function () {
@@ -37,7 +37,7 @@ const appData = {
 
       do {
         itemIncome = prompt('Какой у вас есть дополнительный заработок?', 'Таксую');
-      } while (!regString.test(itemIncome));
+      } while (!isText(itemIncome));
 
       do {
         cashIncome = prompt('Сколько вы на этом зарабатываете?', '10000');
@@ -51,7 +51,7 @@ const appData = {
     do {
       addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую',
         'Машина, квартира');
-    } while (!regStringСomma.test(addExpenses));
+    } while (!isText(addExpenses));
 
     appData.addExpenses = addExpenses.toLowerCase().split(', ');
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
@@ -59,7 +59,7 @@ const appData = {
     for (let i = 0; i < 2; i++) {
       do {
         quest = prompt('Введите обязательную статью расходов', 'Расход'.repeat(i + 1));
-      } while (!regString.test(quest));
+      } while (!isText(quest));
       do {
         price = +prompt('Во сколько это обойдется?', 2500);
       } while (!isNumber(price));
