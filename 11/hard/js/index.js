@@ -92,7 +92,7 @@ const appData = {
   getExpenses: function () {
     expensesItems.forEach(function (item) {
       let itemExpenses = item.querySelector('.expenses-title').value,
-        cashExpenses = item.querySelector('.expenses-amount').value;
+      cashExpenses = item.querySelector('.expenses-amount').value;
       if (itemExpenses !== '' && cashExpenses !== '') {
         appData.expenses[itemExpenses] = Number(cashExpenses);
       }
@@ -100,7 +100,7 @@ const appData = {
   },
   getIncome: function () {
     incomeItems.forEach(function (item) {
-      let itemIncome = incomeTitle.value,
+      let itemIncome = item.querySelector('.income-title').value,
         cashIncome = item.querySelector('.income-amount').value;
       if (itemIncome !== '' && cashIncome !== '') {
         appData.income[itemIncome] = Number(cashIncome);
