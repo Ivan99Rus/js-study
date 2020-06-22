@@ -65,11 +65,14 @@ const setStorage = () => {
 
 const getStorage = () => {
   todoData = JSON.parse(localStorage.getItem('arrTodo'));
+  if (todoData === null) {
+    todoData = [];
+  }
 };
 
 window.onbeforeunload = () => {
   setStorage();
 };
-
+localStorage.clear();
 getStorage();
 render();
