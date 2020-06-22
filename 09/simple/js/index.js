@@ -20,8 +20,6 @@ const btnCalculate = document.getElementById('start'),
   targetAmount = document.querySelector('.target-amount'),
   range = document.querySelector('.period-select');
   
-  console.log('expensesAdd: ', expensesAdd);
-  console.log('incomeAdd: ', incomeAdd);
-  
+
   
   
