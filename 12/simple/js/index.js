@@ -73,6 +73,5 @@ const getStorage = () => {
 window.onbeforeunload = () => {
   setStorage();
 };
-localStorage.clear();
 getStorage();
 render();
