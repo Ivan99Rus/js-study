@@ -298,7 +298,7 @@ AppData.prototype.eventListeners = function () {
       additionalIncomeItems[index].value = additionalIncomeItems[index].value.replace(/[^а-я\s,.!?]/, '');
     });
   });
-  cancel.addEventListener('click', appData.reset);
+  cancel.addEventListener('click', appData.reset.bind(appData));
 };
 
 appData.eventListeners();
