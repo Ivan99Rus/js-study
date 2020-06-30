@@ -14,16 +14,16 @@ const start = document.getElementById('start'),
   incomePeriodValue = document.querySelector('.income_period-value'),
   targetMonthValue = document.querySelector('.target_month-value'),
   salaryAmount = document.querySelector('.salary-amount'),
-  incomeTitle = document.querySelectorAll('.income-title')[1],
-  incomeAmount = document.querySelector('.income-amount'),
-  expensesTitle = document.querySelectorAll('.expenses-title')[1],
-  expensesAmount = document.querySelector('.expenses-amount'),
   additionalExpensesItem = document.querySelector('.additional_expenses-item'),
   targetAmount = document.querySelector('.target-amount'),
   periodSelect = document.querySelector('.period-select'),
   inputsText = document.querySelectorAll('input[type=text]'),
   periodAmount = document.querySelector('.period-amount');
-let expensesItems = document.querySelectorAll('.expenses-items'),
+  let expensesItems = document.querySelectorAll('.expenses-items'),
+  expensesTitle = document.querySelectorAll('.expenses-title')[1],
+  expensesAmount = document.querySelector('.expenses-amount'),
+  incomeTitle = document.querySelectorAll('.income-title')[1],
+  incomeAmount = document.querySelector('.income-amount'),
   incomeItems = document.querySelectorAll('.income-items');
 
 class AppData {
@@ -78,27 +78,56 @@ class AppData {
   }
 
   addExpensesBlock() {
-    const cloneExpensesItem = expensesItems[0].cloneNode(true);
+    let cloneExpensesItem = expensesItems[0].cloneNode(true);
+
     cloneExpensesItem.querySelector('.expenses-title').value = '';
     cloneExpensesItem.querySelector('.expenses-amount').value = '';
 
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
+    expensesItems = document.querySelectorAll('.expenses-items');
 
     if (expensesItems.length === 3) {
       expensesPlus.style.display = 'none';
     }
+
+    expensesItems.forEach(item => {
+      expensesTitle = item.querySelector('.expenses-title')
+      expensesAmount = item.querySelector('.expenses-amount')
+
+      expensesTitle.addEventListener('input', () => {
+        expensesTitle.value = expensesTitle.value.replace(/[^а-я\s,.!?]/, '');
+      });
+
+      expensesAmount.addEventListener('input', () => {
+        expensesAmount.value = expensesAmount.value.replace(/[^0-9]/, '');
+      });
+    });
   }
 
   addIncomeBlock() {
-    const cloneIncomeItem = incomeItems[0].cloneNode(true);
+    let cloneIncomeItem = incomeItems[0].cloneNode(true);
     cloneIncomeItem.querySelector('.income-title').value = '';
     cloneIncomeItem.querySelector('.income-amount').value = '';
 
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
+    incomeItems = document.querySelectorAll('.income-items');
 
     if (incomeItems.length === 3) {
       incomePlus.style.display = 'none';
     }
+
+    incomeItems.forEach(item => {
+      incomeTitle = item.querySelector('.income-title')
+      incomeAmount = item.querySelector('.income-amount')
+
+      incomeTitle.addEventListener('input', () => {
+        incomeTitle.value = incomeTitle.value.replace(/[^а-я\s,.!?]/, '');
+      });
+
+      incomeAmount.addEventListener('input', () => {
+        incomeAmount.value = incomeAmount.value.replace(/[^0-9]/, '');
+      });
+    });
   }
 
   getExpInc() {
@@ -234,9 +263,16 @@ class AppData {
   }
 
   eventListeners() {
+    start.disabled = true;
+
     salaryAmount.addEventListener('input', () => {
       salaryAmount.value === '' ? start.disabled = true : start.disabled = false;
     });
+
+    salaryAmount.addEventListener('input', () => {
+      salaryAmount.value = salaryAmount.value.replace(/[^0-9]/, '');
+    });
+    
     start.addEventListener('click', appData.start.bind(appData));
     expensesPlus.addEventListener('click', appData.addExpensesBlock);
     incomePlus.addEventListener('click', appData.addIncomeBlock);
@@ -258,6 +294,11 @@ class AppData {
       });
     });
     cancel.addEventListener('click', appData.reset.bind(appData));
+
+    periodSelect.addEventListener('input', () => {
+      periodAmount.textContent = periodSelect.value;
+      incomePeriodValue.value = this.calcPeriod();
+    });
   }
 }
 
