@@ -80,8 +80,19 @@ class AppData {
   addExpensesBlock() {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
 
-    cloneExpensesItem.querySelector('.expenses-title').value = '';
-    cloneExpensesItem.querySelector('.expenses-amount').value = '';
+    let cET = cloneExpensesItem.querySelector('.expenses-title'),
+        cEA = cloneExpensesItem.querySelector('.expenses-amount');
+
+        cET.value = '';
+        cEA.value = '';
+
+    cET.addEventListener('input', () => {
+      cET.value = cET.value.replace(/[^а-я\s,.!?]/, '');
+    });
+        
+    cEA.addEventListener('input', () => {
+      cEA.value = cEA.value.replace(/[^0-9]/, '');
+    });
 
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
     expensesItems = document.querySelectorAll('.expenses-items');
@@ -89,25 +100,25 @@ class AppData {
     if (expensesItems.length === 3) {
       expensesPlus.style.display = 'none';
     }
-
-    expensesItems.forEach(item => {
-      expensesTitle = item.querySelector('.expenses-title')
-      expensesAmount = item.querySelector('.expenses-amount')
-
-      expensesTitle.addEventListener('input', () => {
-        expensesTitle.value = expensesTitle.value.replace(/[^а-я\s,.!?]/, '');
-      });
-
-      expensesAmount.addEventListener('input', () => {
-        expensesAmount.value = expensesAmount.value.replace(/[^0-9]/, '');
-      });
-    });
   }
 
   addIncomeBlock() {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
-    cloneIncomeItem.querySelector('.income-title').value = '';
-    cloneIncomeItem.querySelector('.income-amount').value = '';
+
+    let cIT = cloneIncomeItem.querySelector('.income-title'),
+      cIA = cloneIncomeItem.querySelector('.income-amount');
+
+    cIT.value = '';
+    cIA.value = '';
+
+    cIT.addEventListener('input', () => {
+      cIT.value = cIT.value.replace(/[^а-я\s,.!?]/, '');
+    });
+
+    cIA.addEventListener('input', () => {
+      cIA.value = cIA.value.replace(/[^0-9]/, '');
+    });
+
 
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
     incomeItems = document.querySelectorAll('.income-items');
@@ -115,19 +126,6 @@ class AppData {
     if (incomeItems.length === 3) {
       incomePlus.style.display = 'none';
     }
-
-    incomeItems.forEach(item => {
-      incomeTitle = item.querySelector('.income-title')
-      incomeAmount = item.querySelector('.income-amount')
-
-      incomeTitle.addEventListener('input', () => {
-        incomeTitle.value = incomeTitle.value.replace(/[^а-я\s,.!?]/, '');
-      });
-
-      incomeAmount.addEventListener('input', () => {
-        incomeAmount.value = incomeAmount.value.replace(/[^0-9]/, '');
-      });
-    });
   }
 
   getExpInc() {
@@ -205,39 +203,43 @@ class AppData {
   }
 
   reset() {
-    inputsText.forEach(function (item) {
-      item.value = '';
-      item.value = '';
-    });
+    start.disabled = true;
+inputsText.forEach(function (item) {
+  item.value = '';
+  item.value = '';
+});
 
-    if (incomeItems.length > 1) {
-      for (let i = 0; i < incomeItems.length; i++) {
-        if (i === 0) {
-          continue;
-        }
-        incomeItems[i].remove();
-      }
-      incomeItems[0].querySelector('.income-title').value = '';
-      incomeItems[0].querySelector('.income-amount').value = '';
-      incomePlus.style.display = 'block';
-      console.log('incomeItems: ', incomeItems.length);
-      incomeItems = document.querySelectorAll('.income-items');
+if (incomeItems.length > 1) {
+  for (let i = 0; i < incomeItems.length; i++) {
+    if (i === 0) {
+      continue;
     }
+    incomeItems[i].remove();
+  }
+  incomeItems[0].querySelector('.income-title').value = '';
+  incomeItems[0].querySelector('.income-amount').value = '';
+  incomePlus.style.display = 'block';
+  console.log('incomeItems: ', incomeItems.length);
+  incomeItems = document.querySelectorAll('.income-items');
+}
 
 
-    if (expensesItems.length > 1) {
-      for (let i = 0; i < expensesItems.length; i++) {
-        if (i === 0) {
-          continue;
-        }
-        expensesItems[i].remove();
-      }
-      expensesItems[0].querySelector('.expenses-title').value = '';
-      expensesItems[0].querySelector('.expenses-amount').value = '';
-      expensesPlus.style.display = 'block';
-      expensesItems = document.querySelectorAll('.expenses-items');
-      console.log('expensesItems: ', expensesItems.length);
+if (expensesItems.length > 1) {
+  for (let i = 0; i < expensesItems.length; i++) {
+    if (i === 0) {
+      continue;
     }
+    expensesItems[i].remove();
+  }
+  expensesItems[0].querySelector('.expenses-title').value = '';
+  expensesItems[0].querySelector('.expenses-amount').value = '';
+  expensesPlus.style.display = 'block';
+  expensesItems = document.querySelectorAll('.expenses-items');
+  console.log('expensesItems: ', expensesItems.length);
+}
+
+    incomePlus.style.display = 'block';
+    expensesPlus.style.display = 'block';
 
     periodSelect.value = 1;
     periodAmount.textContent = '1';
