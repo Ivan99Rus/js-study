@@ -84,8 +84,19 @@ class AppData {
   addExpensesBlock() {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
 
-    cloneExpensesItem.querySelector('.expenses-title').value = '';
-    cloneExpensesItem.querySelector('.expenses-amount').value = '';
+    let cET = cloneExpensesItem.querySelector('.expenses-title'),
+      cEA = cloneExpensesItem.querySelector('.expenses-amount');
+
+    cET.value = '';
+    cEA.value = '';
+
+    cET.addEventListener('input', () => {
+      cET.value = cET.value.replace(/[^а-я\s,.!?]/, '');
+    });
+
+    cEA.addEventListener('input', () => {
+      cEA.value = cEA.value.replace(/[^0-9]/, '');
+    });
 
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
     expensesItems = document.querySelectorAll('.expenses-items');
@@ -93,25 +104,25 @@ class AppData {
     if (expensesItems.length === 3) {
       expensesPlus.style.display = 'none';
     }
-
-    expensesItems.forEach(item => {
-      expensesTitle = item.querySelector('.expenses-title')
-      expensesAmount = item.querySelector('.expenses-amount')
-
-      expensesTitle.addEventListener('input', () => {
-        expensesTitle.value = expensesTitle.value.replace(/[^а-я\s,.!?]/, '');
-      });
-
-      expensesAmount.addEventListener('input', () => {
-        expensesAmount.value = expensesAmount.value.replace(/[^0-9]/, '');
-      });
-    });
   }
 
   addIncomeBlock() {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
-    cloneIncomeItem.querySelector('.income-title').value = '';
-    cloneIncomeItem.querySelector('.income-amount').value = '';
+
+    let cIT = cloneIncomeItem.querySelector('.income-title'),
+      cIA = cloneIncomeItem.querySelector('.income-amount');
+
+    cIT.value = '';
+    cIA.value = '';
+
+    cIT.addEventListener('input', () => {
+      cIT.value = cIT.value.replace(/[^а-я\s,.!?]/, '');
+    });
+
+    cIA.addEventListener('input', () => {
+      cIA.value = cIA.value.replace(/[^0-9]/, '');
+    });
+
 
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
     incomeItems = document.querySelectorAll('.income-items');
@@ -119,19 +130,6 @@ class AppData {
     if (incomeItems.length === 3) {
       incomePlus.style.display = 'none';
     }
-
-    incomeItems.forEach(item => {
-      incomeTitle = item.querySelector('.income-title')
-      incomeAmount = item.querySelector('.income-amount')
-
-      incomeTitle.addEventListener('input', () => {
-        incomeTitle.value = incomeTitle.value.replace(/[^а-я\s,.!?]/, '');
-      });
-
-      incomeAmount.addEventListener('input', () => {
-        incomeAmount.value = incomeAmount.value.replace(/[^0-9]/, '');
-      });
-    });
   }
 
   getExpInc() {
@@ -244,11 +242,27 @@ class AppData {
       console.log('expensesItems: ', expensesItems.length);
     }
 
+    incomePlus.style.display = 'block';
+    expensesPlus.style.display = 'block';
+
     periodSelect.value = 1;
     periodAmount.textContent = '1';
 
     start.style.display = 'block';
     cancel.style.display = 'none';
+
+    start.disabled = true;
+    
+    if (depositCheck.checked) {
+      depositBank.style.display = 'none';
+      depositAmount.style.display = 'none';
+      depositBank.value = '';
+      depositAmount.value = '';
+      this.deposit = false;
+      depositCheck.checked = false;
+    }
+
+    
 
     const unBlockInputs = () => document.querySelectorAll('.data input[type=text]').forEach((item) => item.removeAttribute('disabled'));
     unBlockInputs();
@@ -344,6 +358,11 @@ class AppData {
     cancel.addEventListener('click', appData.reset.bind(appData));
 
     depositCheck.addEventListener('change', this.depositHandler.bind(this));
+
+    periodSelect.addEventListener('input', () => {
+      periodAmount.textContent = periodSelect.value;
+      incomePeriodValue.value = this.calcPeriod();
+    });
   }
 }
 
