@@ -60,6 +60,7 @@ const appData = {
 
     console.log('expensesItems: ', expensesItems);
 
+    start.disabled = true;
     start.style.display = 'none';
     cancel.style.display = 'block';
 
@@ -241,6 +242,8 @@ const appData = {
     this.budgetMonth = 0;
     this.expensesMonth = 0;
     this.incomeMonth = 0;
+
+    depositCheck.checked = false;
   }
 };
 

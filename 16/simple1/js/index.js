@@ -18,12 +18,15 @@ const start = document.getElementById('start'),
   targetAmount = document.querySelector('.target-amount'),
   periodSelect = document.querySelector('.period-select'),
   inputsText = document.querySelectorAll('input[type=text]'),
-  periodAmount = document.querySelector('.period-amount');
+  periodAmount = document.querySelector('.period-amount'),
+  depositBank = document.querySelector('.deposit-bank'),
+  depositAmount = document.querySelector('.deposit-amount'),
+  depositPercent = document.querySelector('.deposit-percent');
   let expensesItems = document.querySelectorAll('.expenses-items'),
-  expensesTitle = document.querySelectorAll('.expenses-title')[1],
-  expensesAmount = document.querySelector('.expenses-amount'),
   incomeTitle = document.querySelectorAll('.income-title')[1],
   incomeAmount = document.querySelector('.income-amount'),
+  expensesTitle = document.querySelectorAll('.expenses-title')[1],
+  expensesAmount = document.querySelector('.expenses-amount'),
   incomeItems = document.querySelectorAll('.income-items');
 
 class AppData {
@@ -48,6 +51,7 @@ class AppData {
     this.getExpensesMonth();
     this.getAddExpenses();
     this.getAddIncome();
+    this.getInfoDeposit();
     this.getBudget();
     this.showResult();
 
@@ -180,7 +184,8 @@ class AppData {
   }
 
   getBudget() {
-    this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+    const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
+    this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
     this.budgetDay = Math.floor(this.budgetMonth / 30);
   }
 
@@ -262,6 +267,53 @@ class AppData {
     this.incomeMonth = 0;
   }
 
+  getInfoDeposit() {
+    if (this.deposit) {
+      this.percentDeposit = depositPercent.value;
+      this.moneyDeposit = depositAmount.value;
+    }
+  }
+
+  validateDepositPercent() {
+    if (+depositPercent.value > 100 || +depositPercent.value < 1 || !(+depositPercent.value)) {
+      alert ('Введите корректное значение в поле проценты');
+      depositPercent.value = '';
+      start.setAttribute('disabled', 'true');
+    } else {
+      start.removeAttribute('disabled');
+    }
+  }
+
+  changePercent() {
+    const valueSelect = this.value;
+    if (valueSelect === 'other') {
+      depositPercent.value = '';
+
+      depositPercent.addEventListener('change', appData.validateDepositPercent.bind(appData));
+
+      depositPercent.style.display = 'inline-block';  
+    } else {
+      depositPercent.style.display = 'none';  
+      depositPercent.value = valueSelect;
+    }
+  }
+
+  depositHandler() {
+    if (depositCheck.checked){
+      depositBank.style.display = 'inline-block';
+      depositAmount.style.display = 'inline-block';
+      this.deposit = true;
+      depositBank.addEventListener('change', this.changePercent);
+    } else {      
+      depositBank.style.display = 'none';
+      depositAmount.style.display = 'none';
+      depositBank.value = '';
+      depositAmount.value = '';
+      this.deposit = false;
+      depositBank.removeEventListener('change', this.changePercent);
+    }
+  }
+
   eventListeners() {
     start.disabled = true;
 
@@ -269,11 +321,6 @@ class AppData {
       salaryAmount.value === '' ? start.disabled = true : start.disabled = false;
       salaryAmount.value = salaryAmount.value.replace(/[^0-9]/, '');
     });
-
-    salaryAmount.addEventListener('input', () => {
-      salaryAmount.value = salaryAmount.value.replace(/[^0-9]/, '');
-    });
-    
     start.addEventListener('click', appData.start.bind(appData));
     expensesPlus.addEventListener('click', appData.addExpensesBlock);
     incomePlus.addEventListener('click', appData.addIncomeBlock);
@@ -296,10 +343,7 @@ class AppData {
     });
     cancel.addEventListener('click', appData.reset.bind(appData));
 
-    periodSelect.addEventListener('input', () => {
-      periodAmount.textContent = periodSelect.value;
-      incomePeriodValue.value = this.calcPeriod();
-    });
+    depositCheck.addEventListener('change', this.depositHandler.bind(this));
   }
 }
 
