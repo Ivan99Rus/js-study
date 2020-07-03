@@ -32,19 +32,14 @@ window.addEventListener('DOMContentLoaded', function () {
       timerMinutes.textContent = timer.minutes;
       timerSeconds.textContent = timer.seconds;
 
-      if (timer.timeRemaining > 0) {
-        return setTimeout(updateClock, 1000);
-      } else {
+      if (timer.timeRemaining < 0) {
         timerHours.textContent = '00';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
+        clearInterval(interval);
       }
     }
-
-    //setTimeout(updateClock, 1000);
-    setInterval(() => {
-      updateClock();
-    }, 1000);
+    let interval = setInterval(() => updateClock());
   }
   countTimer('05 july 2020');
 
