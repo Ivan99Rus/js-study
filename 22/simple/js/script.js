@@ -23,7 +23,6 @@ class Todo {
   createItem(todo) {
     const li = document.createElement('li');
     li.classList.add('todo-item');
-    //li.key = todo.key;
     li.insertAdjacentHTML('beforeend', `
       <span class = "text-todo">${todo.value}</span> 
       <div class = "todo-buttons">
@@ -51,54 +50,64 @@ class Todo {
       };
       this.todoData.set(newTodo.key, newTodo);
       this.render();
+      this.input.value = '';
     } else if (this.input.value.trim() === '') {
       alert('Введите задачу');
-    }
+    } 
+      
+    
   }
 
   generateKey() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
-  deleteItem(index) {
-    //console.log('Удалить элемент с индексом: ', index);
-    //console.log('this.todoList[index]: ', this.todoList[index]);
-    /*
-    найти по ключу и удалть
-    рендер
-    */
+  deleteItem(key) {
+    this.todoData.delete(key);
+    this.render();
   }
 
-  complatedItem(index) {
-    //console.log('Добавить элемент с индексом: ', index);
-    /*
-    перебопть через foreach todoData и поменять значение на выполненное
-    */
+  complatedItem(key) {
+    
+    this.todoData.forEach((el, i) => {
+      if (key === i) {
+        console.log('key: ', key);
+        console.log('i: ', i);
+        console.log(el.complated = !el.complated);
+      }
+    });
+    this.render();
   }
 
   handler(e) {
     let target = e.target;
+    console.log('target: ', target);
 
-    const todoItems = document.querySelectorAll('.todo-item');
+    let keys = [];
+    console.log(this.todoData);
+    this.todoData.forEach(function (value, key) {
+      keys.push(key);
+    });
+
+    let todoItems = document.querySelectorAll('.todo-item'); 
 
     todoItems.forEach((el, index) => {
       if (el === target.parentNode.parentNode) {
         if (target.classList.contains('todo-remove')) {
-          console.log(this.todoData);
-          this.deleteItem(index);
+          this.deleteItem(keys[index]);
         } else if (target.classList.contains('todo-complete')) {
-          this.complatedItem(index);
+          this.complatedItem(keys[index]);
         }
       }
     });
 
-}
+  }
 
-init() {
-  this.form.addEventListener('submit', this.addTodo.bind(this));
-  this.todoList.addEventListener('click', this.handler.bind(this));
-  this.render();
-}
+  init() {
+    this.form.addEventListener('submit', this.addTodo.bind(this));
+    this.todoList.addEventListener('click', this.handler.bind(this));
+    this.render();
+  }
 
 }
 
