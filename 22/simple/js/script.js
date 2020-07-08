@@ -1,11 +1,11 @@
 'use strict';
 
 class Todo {
-  constructor(form, input, todoList, todoComplated) {
+  constructor(form, input, todoList, todoCompleted) {
     this.form = document.querySelector(form);
     this.input = document.querySelector(input);
     this.todoList = document.querySelector(todoList);
-    this.todoComplated = document.querySelector(todoComplated);
+    this.todoCompleted = document.querySelector(todoCompleted);
     this.todoData = new Map(JSON.parse(localStorage.getItem('toDoList')));
   }
 
@@ -15,7 +15,7 @@ class Todo {
 
   render() {
     this.todoList.textContent = '';
-    this.todoComplated.textContent = '';
+    this.todoCompleted.textContent = '';
     this.todoData.forEach(this.createItem, this);
     this.addToStorage();
   }
@@ -23,17 +23,17 @@ class Todo {
   createItem(todo) {
     const li = document.createElement('li');
     li.classList.add('todo-item');
+    li.key = todo.key;
+    li.dataset.key = todo.key;
     li.insertAdjacentHTML('beforeend', `
-      <span class = "text-todo">${todo.value}</span> 
-      <div class = "todo-buttons">
-        <button class = "todo-edit"></button> 
-        <button class = "todo-remove"></button> 
-        <button class = "todo-complete"></button> 
+      <span class="text-todo">${todo.value}</span>
+      <div class="todo-buttons">
+        <button class="todo-remove"></button>
+        <button class="todo-complete"></button>
       </div>
-    `);
-
-    if (todo.complated) {
-      this.todoComplated.append(li);
+      `);
+    if (todo.completed) {
+      this.todoCompleted.append(li);
     } else {
       this.todoList.append(li);
     }
@@ -45,7 +45,7 @@ class Todo {
     if (this.input.value.trim()) {
       const newTodo = {
         value: this.input.value,
-        complated: false,
+        completed: false,
         key: this.generateKey()
       };
       this.todoData.set(newTodo.key, newTodo);
@@ -53,9 +53,9 @@ class Todo {
       this.input.value = '';
     } else if (this.input.value.trim() === '') {
       alert('Введите задачу');
-    } 
-      
-    
+    }
+
+
   }
 
   generateKey() {
@@ -67,45 +67,36 @@ class Todo {
     this.render();
   }
 
-  complatedItem(key) {
-    
-    this.todoData.forEach((el, i) => {
-      if (key === i) {
-        console.log('key: ', key);
-        console.log('i: ', i);
-        console.log(el.complated = !el.complated);
+  completedItem(targetKey) {
+    this.todoData.forEach((value, key) => {
+      if (targetKey === key && value.completed === false) {
+        value.completed = true;
+      } else if (targetKey === key && value.completed === true) {
+        value.completed = false;
       }
     });
+
     this.render();
   }
 
-  handler(e) {
-    let target = e.target;
-    console.log('target: ', target);
+  handler() {
 
-    let keys = [];
-    console.log(this.todoData);
-    this.todoData.forEach(function (value, key) {
-      keys.push(key);
-    });
-
-    let todoItems = document.querySelectorAll('.todo-item'); 
-
-    todoItems.forEach((el, index) => {
-      if (el === target.parentNode.parentNode) {
-        if (target.classList.contains('todo-remove')) {
-          this.deleteItem(keys[index]);
-        } else if (target.classList.contains('todo-complete')) {
-          this.complatedItem(keys[index]);
-        }
+    document.querySelector('.todo-container').addEventListener('click', event => {
+      event.preventDefault();
+      const target = event.target;
+      if (target.matches('.todo-complete')) {
+        target.key = target.closest('.todo-item').key;
+        this.completedItem(target.key);
+      } else if (target.matches('.todo-remove')) {
+        target.key = target.closest('.todo-item').key;
+        this.deleteItem(target.key);
       }
     });
 
   }
-
+ 
   init() {
     this.form.addEventListener('submit', this.addTodo.bind(this));
-    this.todoList.addEventListener('click', this.handler.bind(this));
     this.render();
   }
 
@@ -114,3 +105,4 @@ class Todo {
 const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
 
 todo.init();
+todo.handler();
