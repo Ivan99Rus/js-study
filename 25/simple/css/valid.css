@@ -1,0 +1,29 @@
+.form1-error {
+  margin-top: -20px;
+}
+
+.form2-error {
+  margin-top: 10px;
+}
+
+.mess {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 992px) {
+  .form1-error {
+    margin-top: 0;
+  }
+
+  .form2-error {
+    margin-top: 10px;
+  }
+
+  .mess {
+    margin-bottom: 10px !important;
+  }
+
+  .top-form {
+    margin-bottom: 0;
+  }
+}
