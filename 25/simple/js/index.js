@@ -312,7 +312,7 @@ window.addEventListener('DOMContentLoaded', function () {
           } else if (calcDay.value && calcDay.value < 10) {
             dayValue *= 1.5;
           }
-          
+           
           if (typeValue && squareValue) {
             total = price * typeValue * squareValue * countValue * dayValue;
           }

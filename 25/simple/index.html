@@ -407,11 +407,11 @@
 				<h3>Введите свои данные для связи с нами!</h3>
 				<form id="form3" name="user_form">
 					<div>
-						<input type="text" class="form-name" id="form3-name" name="user_name" placeholder="Ваше имя" required>
+						<input type="text" class="form-name" id="form3-name" name="user_name" placeholder="Ваше имя" >
 					</div>
 					<div>
 						<input type="tel" class="form-phone" id="form3-phone" name="user_phone" placeholder="Ваш номер телефона"
-							required>
+							>
 					</div>
 					<div>
 						<input type="email" class="form-email" id="form3-email" name="user_email" placeholder="Ваш E-mail">
@@ -474,8 +474,31 @@
 			errorType: 'label'
 		});
 
+		const valid3 = new Validator({
+			selector: '#form3',
+			pattern: {
+				//phone: /^\d+$/
+			},
+			method: {
+				'form3-name': [
+					['notEmpty']
+				],
+				'form3-email': [
+					['notEmpty'],
+					['pattern', 'email'],
+				],
+				'form3-phone': [
+					['notEmpty'],
+					['pattern', 'phone'],
+				]
+			},
+			errorType: 'label',
+			//errorClass: 'form1-error'
+		});
+
 		valid1.init();
 		valid2.init();
+		valid3.init();
 	</script>
 </body>
 
