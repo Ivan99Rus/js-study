@@ -353,8 +353,11 @@ window.addEventListener('DOMContentLoaded', function () {
       for (let val of formData.entries()) {
         body[val[0]] = val[1];
       }
+
+
       postData(body, () => {
         statusMessage.textContent = successMessage;
+        clearForm();
       }, (error) => {
         statusMessage.textContent = erorMessage;
         console.log('error: ', error);
@@ -380,7 +383,35 @@ window.addEventListener('DOMContentLoaded', function () {
       //request.send(formData);
     };
 
+    const clearForm = () => {
+      for (const el of form.elements) {
+        if (el.tagName.toLowerCase() !== 'button' && el.type !== 'button') {
+          el.value = '';
+        }
+      }
+    };
+
   };
   sendForm(document.getElementById('form1'));
   sendForm(document.getElementById('form2'));
+  sendForm(document.getElementById('form3'));
+
+  // валидация формы
+  const validForm = (selector) => {
+    const form = document.querySelector(selector);
+    
+    maskPhone(`${selector}-phone`);
+
+    form.addEventListener('input', e => {
+      if (e.target.id === `${selector.slice(1)}-name` || e.target.id === 'form2-message') {
+        console.log(e.target.value);
+        if (!(/^[А-Яа-яёЁ\s]*$/g.test(e.target.value))) {
+          e.target.value = e.target.value.slice(0, -1);
+        }
+      }
+    });
+  };
+  validForm('#form1');
+  validForm('#form2');
+  validForm('#form3');
 });
