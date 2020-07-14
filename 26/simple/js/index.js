@@ -344,8 +344,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      form.appendChild(statusMessage);
-      statusMessage.textContent = laodMessage;
 
       const formData = new FormData(form);
       let body = {};
@@ -354,14 +352,35 @@ window.addEventListener('DOMContentLoaded', function () {
         body[val[0]] = val[1];
       }
 
+      let elementsForm = [...form.elements].filter(e => e.type.toLowerCase() !== 'button' && e.type !== 'submit');
 
-      postData(body, () => {
-        statusMessage.textContent = successMessage;
-        clearForm();
-      }, (error) => {
-        statusMessage.textContent = erorMessage;
-        console.log('error: ', error);
+      let valid = false;
+
+      elementsForm.forEach(e => {
+        console.log(e);
+        if (e.classList.contains('error-input')) {
+          console.log('error');
+          valid = false;
+          return;
+        }
+        valid = true;
       });
+      console.log('valid: ', valid);
+
+      if (valid) {
+        form.appendChild(statusMessage);
+        statusMessage.textContent = laodMessage;
+
+        postData(body, () => {
+          statusMessage.textContent = successMessage;
+          clearForm();
+        }, (error) => {
+          statusMessage.textContent = erorMessage;
+          console.log('error: ', error);
+        });
+      } else {
+        return;
+      }
     });
 
     const postData = (body, outputData, errorData) => {
@@ -399,7 +418,7 @@ window.addEventListener('DOMContentLoaded', function () {
   // валидация формы
   const validForm = (selector) => {
     const form = document.querySelector(selector);
-    
+
     maskPhone(`${selector}-phone`);
 
     form.addEventListener('input', e => {
