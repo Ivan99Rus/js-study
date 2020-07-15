@@ -399,6 +399,7 @@ window.addEventListener('DOMContentLoaded', function () {
             postData(body)
               .then(() => {
                 statusMessage.textContent = successMessage;
+                clearForm();
               })
               .catch((error) => {
                 statusMessage.textContent = erorMessage;
