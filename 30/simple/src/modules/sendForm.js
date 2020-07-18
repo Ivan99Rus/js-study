@@ -31,11 +31,10 @@ const sendForm = (form) => {
           valid = false;
         }
       }
-      //valid = true;
     });
 
     const postData = (formData) => {
-      return fetch('server.php', {
+      return fetch('http://localhost:80/server.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -67,6 +66,7 @@ const sendForm = (form) => {
           statusMessage.textContent = erorMessage;
           console.error(error);
         });
+        clearForm();
     }
   });
 };

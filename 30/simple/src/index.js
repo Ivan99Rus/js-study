@@ -7,9 +7,11 @@ elementClosest(window);
 import 'formdata-polyfill';
 import 'es6-promise';
 import 'fetch-polyfill';
+import 'mdn-polyfills/Node.prototype.append';
 
 import countTimer from './modules/countTimer';
 import toggleMenu from './modules/toggleMenu';
+import scrollMenu from './modules/scrollMenu';
 import toglePopUp from './modules/toglePopUp';
 import tabs from './modules/tabs';
 import slider from './modules/slider';
@@ -23,6 +25,8 @@ import validForm from './modules/validForm';
 countTimer('25 july 2020');
 // меню
 toggleMenu();
+//скролл 
+scrollMenu();
 // popup
 toglePopUp();
 // табы 
