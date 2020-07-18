@@ -17,7 +17,7 @@ const sendForm = (form) => {
 
     let elementsForm = [...form.elements].filter(e => e.type.toLowerCase() !== 'button' && e.type !== 'submit');
 
-    let valid = false;
+    let valid = true;
 
     elementsForm.forEach(e => {
       try {
@@ -34,7 +34,7 @@ const sendForm = (form) => {
     });
 
     const postData = (formData) => {
-      return fetch('http://localhost:80/server.php', {
+      return fetch('server.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
